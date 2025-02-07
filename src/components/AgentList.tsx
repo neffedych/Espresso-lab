@@ -20,6 +20,7 @@ const AgentList: React.FC = () => {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"Active" | "Inactive">("Active");
   const [emailError, setEmailError] = useState(false);
+  const [editingAgentId, setEditingAgentId] = useState<string | null>(null);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -32,29 +33,47 @@ const AgentList: React.FC = () => {
     setEmailError(!validateEmail(value) && value.length > 0);
   };
 
-  const addAgent = () => {
+  const addOrUpdateAgent = () => {
     if (!name || !email || emailError) return;
 
-    const newAgent: Agent = {
-      id: crypto.randomUUID(),
-      name,
-      email,
-      status,
-      lastSeen: new Date().toLocaleString(),
-    };
+    if (editingAgentId) {
 
-    setAgents([...agents, newAgent]);
+      setAgents((prevAgents) =>
+        prevAgents.map((agent) =>
+          agent.id === editingAgentId ? { ...agent, name, email, status } : agent
+        )
+      );
+      setEditingAgentId(null);
+    } else {
+      
+      const newAgent: Agent = {
+        id: crypto.randomUUID(),
+        name,
+        email,
+        status,
+        lastSeen: new Date().toLocaleString(),
+      };
+      setAgents([...agents, newAgent]);
+    }
+
+    
     setName("");
     setEmail("");
     setStatus("Active");
   };
 
+  const handleEdit = (agent: Agent) => {
+    setEditingAgentId(agent.id);
+    setName(agent.name);
+    setEmail(agent.email);
+    setStatus(agent.status);
+  };
+
   return (
     <div className="container">
-     
 
       <div className="form">
-        <h3>Add New Agent</h3>
+        <h3>{editingAgentId ? "Edit Agent" : "Add New Agent"}</h3>
         <input
           type="text"
           placeholder="Name"
@@ -62,7 +81,8 @@ const AgentList: React.FC = () => {
           onChange={(e) => setName(e.target.value)}
           className="input"
         />
-         <input
+
+          <input
             type="email"
             placeholder="Email"
             value={email}
@@ -70,23 +90,27 @@ const AgentList: React.FC = () => {
             className={`input ${emailError ? "error" : ""}`}
           />
           <div className="error-message">{emailError ? "Invalid email format" : "\u00A0"}</div>
-       
+    
         <select value={status} onChange={(e) => setStatus(e.target.value as "Active" | "Inactive")} className="input">
           <option value="Active">Active</option>
           <option value="Inactive">Inactive</option>
         </select>
-        <button onClick={addAgent} disabled={!name || !email || emailError} className="button">
-          Add Agent
+        <button onClick={addOrUpdateAgent} disabled={!name || !email || emailError} className="button">
+          {editingAgentId ? "Update Agent" : "Add Agent"}
         </button>
       </div>
+
       <h2>Agent List</h2>
       {agents.length === 0 ? (
         <p>No agents found.</p>
       ) : (
-        <ul>
+        <ul className="agent-list">
           {agents.map((agent) => (
-            <li key={agent.id}>
-              <strong>{agent.name}</strong> - {agent.email} - {agent.status} - Last seen: {agent.lastSeen}
+            <li key={agent.id} className="agent-item">
+              <div>
+                <strong>{agent.name}</strong> - {agent.email} - {agent.status} - Last seen: {agent.lastSeen}
+              </div>
+              <button onClick={() => handleEdit(agent)} className="edit-button">Edit</button>
             </li>
           ))}
         </ul>
