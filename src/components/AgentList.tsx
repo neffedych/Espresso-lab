@@ -10,9 +10,9 @@ interface Agent {
 }
 
 const initialAgents: Agent[] = [
-  { id: "1", name: "John Doe", email: "john@example.com", status: "Active", lastSeen: "2024-02-06 10:00 AM" },
-  { id: "2", name: "Jane Smith", email: "jane@example.com", status: "Inactive", lastSeen: "2024-02-05 8:30 PM" },
-];
+    { id: "1", name: "Art Nef", email: "artnef@example.com", status: "Active", lastSeen: "2024-02-06 10:00 AM" },
+    { id: "2", name: "Alex Fen", email: "alexfen@example.com", status: "Inactive", lastSeen: "2024-02-05 8:30 PM" },
+  ];
 
 const AgentList: React.FC = () => {
   const [agents, setAgents] = useState<Agent[]>(() => {
@@ -20,18 +20,23 @@ const AgentList: React.FC = () => {
     return storedAgents ? JSON.parse(storedAgents) : initialAgents;
   });
 
-  const [searchQuery, setSearchQuery] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"Active" | "Inactive">("Active");
   const [emailError, setEmailError] = useState(false);
   const [editingAgentId, setEditingAgentId] = useState<string | null>(null);
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterStatus, setFilterStatus] = useState<"All" | "Active" | "Inactive">("All");
+
   useEffect(() => {
     localStorage.setItem("agents", JSON.stringify(agents));
   }, [agents]);
 
-  const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -76,17 +81,28 @@ const AgentList: React.FC = () => {
     setStatus(agent.status);
   };
 
-  const filteredAgents = agents.filter(
-    (agent) =>
+  const filteredAgents = agents.filter((agent) => {
+    const matchesSearch =
       agent.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      agent.email.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+      agent.email.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesStatus = filterStatus === "All" || agent.status === filterStatus;
+
+    return matchesSearch && matchesStatus;
+  });
 
   return (
     <div className="container">
       <div className="form">
         <h3>{editingAgentId ? "Edit Agent" : "Add New Agent"}</h3>
-        <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} className="input" />
+        <input
+          type="text"
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="input"
+        />
+
         <input
           type="email"
           placeholder="Email"
@@ -95,6 +111,7 @@ const AgentList: React.FC = () => {
           className={`input ${emailError ? "error" : ""}`}
         />
         <div className="error-message">{emailError ? "Invalid email format" : "\u00A0"}</div>
+
         <select value={status} onChange={(e) => setStatus(e.target.value as "Active" | "Inactive")} className="input">
           <option value="Active">Active</option>
           <option value="Inactive">Inactive</option>
@@ -104,14 +121,22 @@ const AgentList: React.FC = () => {
         </button>
       </div>
 
-      <h2>Agent List</h2>
-      <input
-        type="text"
-        placeholder="Search by name or email..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        className="input search-bar"
-      />
+
+      <div className="filter-container">
+        <input
+          type="text"
+          placeholder="Search by name or email..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="input search-bar"
+        />
+
+        <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value as "All" | "Active" | "Inactive")} className="input">
+          <option value="All">All</option>
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
 
       {filteredAgents.length === 0 ? (
         <p>No agents found.</p>
@@ -132,17 +157,11 @@ const AgentList: React.FC = () => {
                 <td>{agent.name}</td>
                 <td>{agent.email}</td>
                 <td>{agent.status}</td>
-                <td>
-                  {new Date(agent.lastSeen).toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" })}
-                </td>
+                <td>{new Date(agent.lastSeen).toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" })}</td>
                 <td>
                   <div style={{ display: "flex", gap: "12px" }}>
-                    <button onClick={() => handleEdit(agent)} className="edit-button">
-                      Edit
-                    </button>
-                    <button onClick={() => deleteAgent(agent.id)} className="delete-button">
-                      Delete
-                    </button>
+                    <button onClick={() => handleEdit(agent)} className="edit-button">Edit</button>
+                    <button onClick={() => deleteAgent(agent.id)} className="delete-button">Delete</button>
                   </div>
                 </td>
               </tr>

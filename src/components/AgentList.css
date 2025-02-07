@@ -133,4 +133,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
   }
-  
+
+select{
+    margin: .5rem;
+}
