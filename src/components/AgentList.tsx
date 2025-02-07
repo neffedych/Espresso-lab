@@ -15,6 +15,11 @@ const initialAgents: Agent[] = [
   { id: "2", name: "Alex Fen", email: "alexfen@example.com", status: "Inactive", lastSeen: "2024-02-05 8:30 PM" },
 ];
 
+export const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+};
+
 const AgentList: React.FC = () => {
   const [agents, setAgents] = useState<Agent[]>(() => {
     const storedAgents = localStorage.getItem("agents");
@@ -33,10 +38,7 @@ const AgentList: React.FC = () => {
     localStorage.setItem("agents", JSON.stringify(agents));
   }, [agents]);
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+   
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
