@@ -137,3 +137,27 @@
 select{
     margin: .5rem;
 }
+
+.agent-link {
+    text-decoration: none; 
+    color: inherit;
+    font-weight: bold; 
+  }
+  
+  .agent-link:hover {
+    color: #007bff;
+  }
+
+  .back-button{
+    text-decoration: none; 
+    background-color: rgb(38, 0, 255);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .back-button:hover{
+    background-color: rgb(34, 0, 224);
+  }

@@ -1,12 +1,17 @@
-import './App.css';
-import Home from './pages/Home';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import AgentList from "../src/components/AgentList";
+import AgentDetails from "../src/components/AgentDetails";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <Home />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<AgentList />} />
+        <Route path="/agent/:id" element={<AgentDetails />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "./AgentList.css";
 
 interface Agent {
@@ -10,9 +11,9 @@ interface Agent {
 }
 
 const initialAgents: Agent[] = [
-    { id: "1", name: "Art Nef", email: "artnef@example.com", status: "Active", lastSeen: "2024-02-06 10:00 AM" },
-    { id: "2", name: "Alex Fen", email: "alexfen@example.com", status: "Inactive", lastSeen: "2024-02-05 8:30 PM" },
-  ];
+  { id: "1", name: "Art Nef", email: "artnef@example.com", status: "Active", lastSeen: "2024-02-06 10:00 AM" },
+  { id: "2", name: "Alex Fen", email: "alexfen@example.com", status: "Inactive", lastSeen: "2024-02-05 8:30 PM" },
+];
 
 const AgentList: React.FC = () => {
   const [agents, setAgents] = useState<Agent[]>(() => {
@@ -25,7 +26,6 @@ const AgentList: React.FC = () => {
   const [status, setStatus] = useState<"Active" | "Inactive">("Active");
   const [emailError, setEmailError] = useState(false);
   const [editingAgentId, setEditingAgentId] = useState<string | null>(null);
-
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState<"All" | "Active" | "Inactive">("All");
 
@@ -121,7 +121,6 @@ const AgentList: React.FC = () => {
         </button>
       </div>
 
-
       <div className="filter-container">
         <input
           type="text"
@@ -154,7 +153,9 @@ const AgentList: React.FC = () => {
           <tbody>
             {filteredAgents.map((agent) => (
               <tr key={agent.id}>
-                <td>{agent.name}</td>
+                <td>
+                  <Link to={`/agent/${agent.id}`} className="agent-link">{agent.name}</Link>
+                </td>
                 <td>{agent.email}</td>
                 <td>{agent.status}</td>
                 <td>{new Date(agent.lastSeen).toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" })}</td>
