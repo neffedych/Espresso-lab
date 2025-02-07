@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./AgentList.css"; // Import styles
+import "./AgentList.css";
 
 interface Agent {
   id: string;
@@ -62,6 +62,10 @@ const AgentList: React.FC = () => {
     setStatus("Active");
   };
 
+  const deleteAgent = (id: string) => {
+    setAgents((prevAgents) => prevAgents.filter((agent) => agent.id !== id));
+  };  
+
   const handleEdit = (agent: Agent) => {
     setEditingAgentId(agent.id);
     setName(agent.name);
@@ -90,7 +94,7 @@ const AgentList: React.FC = () => {
             className={`input ${emailError ? "error" : ""}`}
           />
           <div className="error-message">{emailError ? "Invalid email format" : "\u00A0"}</div>
-    
+
         <select value={status} onChange={(e) => setStatus(e.target.value as "Active" | "Inactive")} className="input">
           <option value="Active">Active</option>
           <option value="Inactive">Inactive</option>
@@ -104,17 +108,20 @@ const AgentList: React.FC = () => {
       {agents.length === 0 ? (
         <p>No agents found.</p>
       ) : (
-        <ul className="agent-list">
-          {agents.map((agent) => (
-            <li key={agent.id} className="agent-item">
-              <div>
-                <strong>{agent.name}</strong> - {agent.email} - {agent.status} - Last seen: {agent.lastSeen}
-              </div>
-              <button onClick={() => handleEdit(agent)} className="edit-button">Edit</button>
-            </li>
-          ))}
-        </ul>
-      )}
+     <ul className="agent-list">
+  {agents.map((agent) => (
+    <li key={agent.id} className="agent-item">
+      <div>
+        <strong>{agent.name}</strong> - {agent.email} - {agent.status} - Last seen: {agent.lastSeen}
+      </div>
+      <div className="button-group">
+        <button onClick={() => handleEdit(agent)} className="edit-button">Edit</button>
+        <button onClick={() => deleteAgent(agent.id)} className="delete-button">Delete</button>
+      </div>
+    </li>
+  ))}
+</ul>
+)}
     </div>
   );
 };
