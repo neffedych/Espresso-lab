@@ -1,60 +1,72 @@
-.container {
-    max-width: 500px;
+/* Modern, sleek UI with responsive design */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f4f7fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 550px;
     margin: auto;
-    font-family: Arial, sans-serif;
+    padding: 1.5rem;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s ease-in-out;
   }
   
   .form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    border: solid 3px gainsboro;
-    padding: 0.5rem 3rem 2rem 3rem;
-    margin: 2rem;
+    gap: 14px;
+    padding: 1.8rem;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
   }
   
   .input {
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: 0.3s;
+    background: #fafafa;
   }
   
-  .input-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .error {
-    border: 1px solid red;
-  }
-
-  .error-message {
-    font-size: 12px;
-    color: red;
-    height: 16px; /* Fixed height to prevent layout shift */
+  .input:focus {
+    border-color: #4caf50;
+    background: #fff;
+    outline: none;
+    box-shadow: 0 0 6px rgba(76, 175, 80, 0.3);
   }
   
   .button {
-    padding: 8px;
-    background-color: rgb(0, 222, 96);
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #4caf50, #388e3c);
     color: white;
-    border: 1px solid grey;
+    border: none;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 8px;
+    transition: 0.3s ease-in-out;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
-
-.button:hover {
-    background-color: rgb(0, 210, 91);
-}
+  
+  .button:hover {
+    background: linear-gradient(135deg, #45a049, #2e7d32);
+    transform: scale(1.03);
+  }
   
   .button:disabled {
-    background-color: gray;
+    background: gray;
     cursor: not-allowed;
   }
   
-   
   .agent-list {
     margin-top: 20px;
     list-style: none;
@@ -65,99 +77,127 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
+    padding: 14px;
+    border-bottom: 2px solid #ececec;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: 0.3s ease;
+  }
+  
+  .agent-item:hover {
+    background: #f4f4f4;
+    transform: scale(1.02);
+  }
+  
+  .edit-button,
+  .delete-button {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
   }
   
   .edit-button {
-    background-color: orange;
+    background: linear-gradient(135deg, #ff9800, #e67e22);
     color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 4px;
- 
   }
-
-  .edit-button:hover{
-    background-color: rgb(233, 151, 0);
-  }
-
-  .button-group {
-    display: flex;
-    gap: .8rem;
-    margin: .7rem;
+  
+  .edit-button:hover {
+    background: linear-gradient(135deg, #e68900, #d35400);
+    transform: scale(1.05);
   }
   
   .delete-button {
-    background-color: red;
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
     color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-
-  .delete-button:hover{
-    background-color: rgb(237, 0, 0);
-  }
-
-  .table-button{
-    display: "flex";
-    gap: 1rem;
-  }
-
-  .agent-table th,
-.agent-table td {
-  padding: 10px 15px;
-  text-align: left;
-}
-
-.agent-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-.agent-table th {
-  background-color: #f4f4f4;
-}
-
-.agent-table td {
-  border-bottom: 1px solid #ddd;
-}
-
-.search-bar {
-    margin-bottom: 15px;
-    padding: 8px;
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-
-select{
-    margin: .5rem;
-}
-
-.agent-link {
-    text-decoration: none; 
-    color: inherit;
-    font-weight: bold; 
   }
   
-  .agent-link:hover {
-    color: #007bff;
+  .delete-button:hover {
+    background: linear-gradient(135deg, #d32f2f, #b71c1c);
+    transform: scale(1.05);
   }
-
-  .back-button{
-    text-decoration: none; 
-    background-color: rgb(38, 0, 255);
+  
+  .agent-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  }
+  
+  .agent-table th,
+  .agent-table td {
+    padding: 14px;
+    text-align: left;
+  }
+  
+  .agent-table th {
+    background: #007bff;
     color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
   }
-
-  .back-button:hover{
-    background-color: rgb(34, 0, 224);
+  
+  .agent-table td {
+    border-bottom: 2px solid #f0f0f0;
   }
+  
+  .agent-table tr:hover {
+    background: #f4f4f4;
+    transition: 0.3s;
+  }
+  
+  .search-bar {
+    margin: 10px 0px;
+    padding: 10px;
+    width: 90%;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: 0.3s;
+    background: #fafafa;
+  }
+  
+  .search-bar:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+    outline: none;
+  }
+  
+  @media (max-width: 600px) {
+    .container {
+      max-width: 95%;
+      padding: 1rem;
+    }
+  
+    .form {
+      padding: 1.2rem;
+    }
+  
+    .button {
+      padding: 14px;
+      font-size: 14px;
+    }
+  
+    .agent-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .button-group {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+  
+    .agent-table th,
+    .agent-table td {
+      padding: 10px;
+      font-size: 14px;
+    }
+  }
+  
