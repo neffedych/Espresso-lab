@@ -28,7 +28,7 @@ const AgentList: React.FC = () => {
   useEffect(() => {
     localStorage.setItem("agents", JSON.stringify(agents));
   }, [agents]);
-  
+
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -58,7 +58,7 @@ const AgentList: React.FC = () => {
         name,
         email,
         status,
-        lastSeen: new Date().toLocaleString(),
+        lastSeen: new Date().toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" }),
       };
       setAgents([...agents, newAgent]);
     }
@@ -115,19 +115,37 @@ const AgentList: React.FC = () => {
       {agents.length === 0 ? (
         <p>No agents found.</p>
       ) : (
-     <ul className="agent-list">
-  {agents.map((agent) => (
-    <li key={agent.id} className="agent-item">
-      <div>
-        <strong>{agent.name}</strong> - {agent.email} - {agent.status} - Last seen: {agent.lastSeen}
-      </div>
-      <div className="button-group">
-        <button onClick={() => handleEdit(agent)} className="edit-button">Edit</button>
-        <button onClick={() => deleteAgent(agent.id)} className="delete-button">Delete</button>
-      </div>
-    </li>
-  ))}
-</ul>
+<table className="agent-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Status</th>
+      <th>Last Seen</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {agents.map((agent) => (
+      <tr key={agent.id}>
+        <td>{agent.name}</td>
+        <td>{agent.email}</td>
+        <td>{agent.status}</td>
+        <td>
+          {new Date(agent.lastSeen).toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" })}
+        </td>
+        <td style={{ padding: "10px 15px" }}>
+          <div style={{ display: "flex", gap: "12px" }}>
+            <button onClick={() => handleEdit(agent)} className="edit-button">Edit</button>
+            <button onClick={() => deleteAgent(agent.id)} className="delete-button">Delete</button>
+          </div>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+
 )}
     </div>
   );

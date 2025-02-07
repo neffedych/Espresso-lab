@@ -101,3 +101,27 @@
   .delete-button:hover{
     background-color: rgb(237, 0, 0);
   }
+
+  .table-button{
+    display: "flex";
+    gap: 1rem;
+  }
+
+  .agent-table th,
+.agent-table td {
+  padding: 10px 15px;
+  text-align: left;
+}
+
+.agent-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.agent-table th {
+  background-color: #f4f4f4;
+}
+
+.agent-table td {
+  border-bottom: 1px solid #ddd;
+}
