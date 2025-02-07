@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./AgentList.css";
 
 interface Agent {
@@ -15,13 +15,20 @@ const initialAgents: Agent[] = [
 ];
 
 const AgentList: React.FC = () => {
-  const [agents, setAgents] = useState<Agent[]>(initialAgents);
+    const [agents, setAgents] = useState<Agent[]>(() => {
+        const storedAgents = localStorage.getItem("agents");
+        return storedAgents ? JSON.parse(storedAgents) : [];
+      });
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"Active" | "Inactive">("Active");
   const [emailError, setEmailError] = useState(false);
   const [editingAgentId, setEditingAgentId] = useState<string | null>(null);
 
+  useEffect(() => {
+    localStorage.setItem("agents", JSON.stringify(agents));
+  }, [agents]);
+  
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
